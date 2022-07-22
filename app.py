@@ -5,7 +5,7 @@ app = Flask(__name__)
 @app.route("/",methods=['GET','POST'])
 
 def index():
-    return "MY APP"
+    return "I completed this deployment"
 
 if __name__=="__main__":
     app.run(debug=True)
