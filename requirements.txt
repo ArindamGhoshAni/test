@@ -4,3 +4,4 @@ numpy
 jsonify
 requests
 scikit-learn
+pymongo

@@ -2,10 +2,16 @@ from flask  import   Flask , render_template, request
 import numpy as np
 import jsonify
 import pickle
-
+import pymongo
+from pymongo import MongoClient
+from pymongo import collection
 
 
 app = Flask(__name__)
+
+client = MongoClient("mongodb+srv://Arin:Arindam@insurance.lx7vz.mongodb.net/?retryWrites=true&w=majority")
+db = client["storedata"]
+collection = db["user"]
 
 model = pickle.load(open('insurance_predict_model.pkl', 'rb'))
 
@@ -29,9 +35,11 @@ def predict():
         region = request.form['region']
         prediction = model.predict([[age , sex, bmi, child, smoker, region]])
         output=round(prediction[0],2)
+        collection.insert_one({"age" : age, "sex": sex,"bmi":bmi,"child":child,"smoker":smoker,"region":region,"output":output})
         return render_template('index.html',prediction_text="Your predicted premium is : {}".format(output))
     else:
         return render_template('index.html')
+    
 
 
 if __name__ == '__main__':
