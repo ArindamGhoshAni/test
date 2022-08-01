@@ -5,9 +5,12 @@ import pickle
 import pymongo
 from pymongo import MongoClient
 from pymongo import collection
-
+import os
 
 app = Flask(__name__)
+
+picFolder = os.path.join('static','pics')
+app.config['UPLOAD_FOLDER'] = picFolder
 
 client = MongoClient("mongodb+srv://Arin:Arindam@insurance.lx7vz.mongodb.net/?retryWrites=true&w=majority")
 db = client["storedata"]
@@ -17,7 +20,8 @@ model = pickle.load(open('insurance_predict_model.pkl', 'rb'))
 
 @app.route('/',methods=['GET'])
 def home():
-    return render_template('home.html')
+    pic1 = os.path.join(app.config['UPLOAD_FOLDER'],'pic1.jpg')
+    return render_template('home.html',user_image = pic1)
 
 @app.route('/index',methods=['GET'])
 def hello():
@@ -43,4 +47,4 @@ def predict():
 
 
 if __name__ == '__main__':
-    app.run(debug=True)
+    app.run(port = 80, debug=True)
