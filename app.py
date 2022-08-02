@@ -21,6 +21,7 @@ model = pickle.load(open('insurance_predict_model.pkl', 'rb'))
 @app.route('/',methods=['GET'])
 def home():
     pic1 = os.path.join(app.config['UPLOAD_FOLDER'],'pic1.jpg')
+    pic2 = os.path.join(app.config['UPLOAD_FOLDER'],'pic2.jpg')
     return render_template('home.html',user_image = pic1)
 
 @app.route('/index',methods=['GET'])
@@ -35,11 +36,10 @@ def predict():
         bmi = float(request.form['c'])
         child = int(request.form['d'])
         smoker = request.form['smoker']
-
         region = request.form['region']
         prediction = model.predict([[age , sex, bmi, child, smoker, region]])
         output=round(prediction[0],2)
-        collection.insert_one({"age" : age, "sex": sex,"bmi":bmi,"child":child,"smoker":smoker,"region":region,"output":output})
+        collection.insert_one({"age" : age, "sex": sex,"bmi":bmi,"child":child,"smoker":smoker,"region":region,"Predicted Price":output})
         return render_template('index.html',prediction_text="Your predicted premium is : {}".format(output))
     else:
         return render_template('index.html')
@@ -47,4 +47,4 @@ def predict():
 
 
 if __name__ == '__main__':
-    app.run(port = 80, debug=True)
+    app.run(debug=True)

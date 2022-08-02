@@ -1,42 +1,131 @@
 <html>
   <head>
-   
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <style>
+    body, html {
+      height: 100%;
+      font-family: Arial, Helvetica, sans-serif;
+    }
+    
+    * {
+      box-sizing: border-box;
+    }
+    
+    .bg-img {
+      /* The image used */
+      background-image: url("img_nature.jpg");
+    
+      min-height: 380px;
+    
+      /* Center and scale the image nicely */
+      background-position: center;
+      background-repeat: no-repeat;
+      background-size: cover;
+      position: relative;
+    }
+    
+    /* Add styles to the form container */
+    .container {
+      position: absolute;
+      right: 0;
+      margin: 20px;
+      max-width: 400px;
+      padding: 20px;
+      background-color: white;
+    }
+    
+    /* Full-width input fields */
+    input[type=number], select{
+      width: 100%;
+      padding: 15px;
+      margin: 5px 0 22px 0;
+      border: none;
+      background: #f1f1f1;
+    }
+    
+    input[type=number]:focus, select:focus {
+      background-color: #ddd;
+      outline: none;
+    }
+    
+    /* Set a style for the submit button */
+    .btn {
+      background-color: #04AA6D;
+      color: white;
+      padding: 16px 20px;
+      border: none;
+      cursor: pointer;
+      width: 100%;
+      opacity: 0.9;
+    }
+    
+    .btn:hover {
+      opacity: 1;
+    }
+
+    .popup{
+      width: 400px;
+      background-color: #04AA6D;
+      border-radius: 6px;
+      position: absolute;
+      top: 50%;
+      left: 50;
+      text-align: center;
+      padding: 20px; 
+      visibility: hidden;
+      transition: transform 0.4s, top 0.4s;
+    }
+    .open-popup{
+      visibility: visible;
+      top:50%;
+      transform: translate(-50%,-50%) scale(1);
+    }
+    </style>
   </head>
   <body>
     
-    <center>
-      <big style="font-size:50px;font-weight:bold; ">INSURANCE PREMIUM PREDICTION </big>
-        <hr>
-         <form action ="{{url_for('predict')}}" method ="post">
-       <b><h1>AGE OF THE PERSON : <input type="number" name='a' placeholder = "Enter your age" required = "required">
-             <label for="Sex">SEX:</label>
+    
+     
+        <div class="bg-img">
+         <form action ="{{url_for('predict')}}" method ="post" class="container">
+          <h1>Premium Calculator</h1>
+       <b>AGE OF THE PERSON</b><input type="number" name='a' placeholder = "Enter your age" required = "required">
+             <label for="Sex"><b>SEX</b></label>
             <select id="Sex" name="sex" required = "required">
                 <option value="" disabled selected>Select option </option>
              <option value=1>Male</option><option value=0>Female</option>
-            </select><br><br>
-            BODY MASS INDEX (BMI) : <input type="number" name='c' placeholder = "Ex : 21.0" required = "required"><br><br>
-            CHILDREN : <input type="number" name='d' placeholder = "How many kids you have" required = "required"> <br><br>
-             <label for="Smoker">Smoker:</label>
+            </select>
+            <b>BODY MASS INDEX (BMI)  </b><input type="number" name='c' placeholder = "Example : 21" required = "required">
+            <b>CHILDREN : </b><input type="number" name='d' placeholder = "How many kids you have" required = "required">
+             <label for="Smoker"><b>SMOKER</b></label>
                 <select id="Smoker" name="smoker"  placeholder = "select" required = "required">
                  <option value="" disabled selected>Select option </option><option value=1>Yes</option><option value=0 >No</option>
              </select>
-                <label for="Smoker">REGION:</label>
+                <label for="region"><b>REGION</b></label>
                 <select id="Region" name="region"  placeholder = "Select" required = "required">
-                 <option value="" disabled selected>Select option </option>
+                 <option value="" disabled selected>Select option</option>
                     <option value=0>South - West</option>
                     <option value=1 >South - East</option>
                     <option value=2 >North - West</option>
                     <option value=3 >North - East</option>
-             </select></h1> <br><br><br>
+             </select> 
        </b>
-        <h1>  <button id="sub" type="submit">Calculate pemium</button></h1>
+        <br><h1> <button id="sub" type="submit" class="btn" onclick="openPopup">Calculate pemium</button></h1>
       </form>
-    <br><br><h1>{{prediction_text}}</h1>
+    </div>
+    <h1>{{prediction_text}}</h1>
+    <div class="popup">
+    <h1>{{prediction_text}}</h1>
+  </div>
+  <script>
+    let popup = document.getElementById("popup")
 
-    </center>
-    <hr>
-   <marquee>CREATED BY:ARINDAM GHOSH || CONTACT:7980644358 </marquee>
-   <hr>
+    function openPopup(){
+      popup.classList.add("open-popup");
+    }
+  </script>
+
+    
   
           </body>
         
